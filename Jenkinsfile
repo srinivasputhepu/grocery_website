@@ -1,20 +1,29 @@
 pipeline {
 	agent any
 
-	environment{
-		APP_NAME = "Grocery Website"
-		VERSION = "1.0"
-	}
+        parameters {
+            string (
+                name: 'VERSION',
+                defaultValue: '2.0',
+                description: 'Application Version'
+            )
+
+            choice(
+                name: 'ENVIRONMENT',
+                choices: ['Development', 'Testing', 'Production'],
+                description: "Select an Environment"
+            )
+        }
 
 	stages{
-		stage('Environment') {
+		stage('Print Parameters') {
 			steps{
-				sh 'echo "Application Name: $APP_NAME" '
 				sh 'echo "Version: $VERSION" '
+                sh 'echo "Environment: $ENVIRONMENT" '
 			}
 		}
 
-		stage('workspace') {
+		stage('Workspace') {
 			steps{
 				sh 'pwd'
 				sh 'ls -la'
