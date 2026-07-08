@@ -1,25 +1,25 @@
 pipeline {
-    agent any
+	agent any
 
-        stages {
+	environment{
+		APP_NAME = "Grocery Website"
+		VERSION = "1.0"
+	}
 
-            stage('Checkout') {
-                steps {
-                    echo 'Repository checked out successfully.' 
-                    }
-            }
-    
-            stage('List files') {
-                steps {
-                    sh 'pwd'
-                    sh 'ls -la'
-                      }
-            }
+	stages{
+		stage('Environment') {
+			steps{
+				sh 'echo "Application Name: $APP_NAME" '
+				sh 'echo "Version: $VERSION" '
+			}
+		}
 
-            stage('Display Home Page') {
-                steps {
-                    sh 'cat index.html'                    
-                    }                
-                }
-            }
-        }
+		stage('workspace') {
+			steps{
+				sh 'pwd'
+				sh 'ls -la'
+			}
+		}	
+
+	}
+}
