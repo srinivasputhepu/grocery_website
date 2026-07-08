@@ -19,7 +19,7 @@ pipeline {
 		stage('Print Parameters') {
 			steps{
 				echo "Version: ${params.VERSION}"
-                echo "Environment: ${params.ENVIRONMENT"}
+                echo "Environment: ${params.ENVIRONMENT}"
 
                 sh """
                     echo "Version from Shell: ${params.VERSION}"
