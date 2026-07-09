@@ -50,6 +50,7 @@ pipeline {
                  sh 'echo $USERNAME'
                  sh 'echo $PASSWORD'
                 }
+                sh 'echo "Outside block: $USERNAME" '
 
             }
         }
