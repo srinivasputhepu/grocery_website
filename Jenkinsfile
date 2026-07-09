@@ -35,5 +35,23 @@ pipeline {
 			}
 		}	
 
+        stage('Credentials Demo') {
+            steps {
+                withCredentials([
+                    usernamePassword(
+                        credentialsId: "test-login",
+                        usernameVariable: 'USERNAME',
+                        passwordVariable: 'PASSWORD'
+                        )
+                 ])
+
+                {
+
+                 sh 'echo $USERNAME'
+                 sh 'echo $PASSWORD'
+                }
+
+            }
+        }
 	}
 }
