@@ -65,4 +65,10 @@ pipeline {
                 }
         }
 	}
+
+    Post {
+        always { echo 'Pipeline Finished' }
+        success { echo 'Pipeline Succeeded' }
+        failure { echo 'Pipeline Failed' }       
+    }
 }
