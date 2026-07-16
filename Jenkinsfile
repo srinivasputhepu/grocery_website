@@ -16,44 +16,6 @@ pipeline {
         }
 
 	stages{
-		stage('Print Parameters') {
-			steps{
-				echo "Version: ${params.VERSION}"
-                echo "Environment: ${params.ENVIRONMENT}"
-
-                sh """
-                    echo "Version from Shell: ${params.VERSION}"
-                    echo "Environment from Shell: ${params.ENVIRONMENT}"
-                """
-			}
-		}
-
-		stage('Workspace') {
-			steps{
-				sh 'pwd'
-				sh 'ls -la'
-			}
-		}	
-
-        stage('Credentials Demo') {
-            steps {
-                withCredentials([
-                    usernamePassword(
-                        credentialsId: "test-login",
-                        usernameVariable: 'USERNAME',
-                        passwordVariable: 'PASSWORD'
-                        )
-                 ])
-
-                {
-
-                 sh 'echo $USERNAME'
-                 sh 'echo $PASSWORD'
-                }
-                sh 'echo "Outside block: $USERNAME" '
-
-            }
-        }
 
         stage('Build Docker Image') {
             steps { sh "docker build -t grocery-website:${env.BUILD_NUMBER} -t grocery-website:latest ." }
