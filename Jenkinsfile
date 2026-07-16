@@ -61,7 +61,10 @@ pipeline {
 
         stage('Deployment') {
             steps {
-                sh "docker run -d --name grocery-test -p 8081:80 grocery-website:${env.BUILD_NUMBER}"
+                sh """
+                    docker rm -f grocery-test                    
+                    docker run -d --name grocery-test -p 8081:80 grocery-website:${env.BUILD_NUMBER}
+                    """
                 }
         }
 	}
