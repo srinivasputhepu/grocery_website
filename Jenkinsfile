@@ -54,5 +54,18 @@ pipeline {
 
             }
         }
+
+        stage('Build Docker Image') {
+            steps { sh 'docker build -t grocery-test .' }
+            }
+
+        stage('Deployment') {
+            steps {
+                sh '''
+                    docker rm -f grocery-test || true
+                    docker run -d --name grocery-test -p 8081:80 grocery-website:v1
+                '''
+                }
+        }
 	}
 }
