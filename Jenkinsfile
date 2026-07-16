@@ -56,14 +56,12 @@ pipeline {
         }
 
         stage('Build Docker Image') {
-            steps { sh 'docker build -t grocery-test:v1 .' }
+            steps { sh "docker build -t grocery-website:${env.BUILD_NUMBER} -t grocery-website:latest ." }
             }
 
         stage('Deployment') {
             steps {
-                sh '''
-                    docker run -d --name grocery-test -p 8081:80 grocery-test:v1
-                '''
+                sh "docker run -d --name grocery-test -p 8081:80 grocery-website:${env.BUILD_NUMBER}"
                 }
         }
 	}
