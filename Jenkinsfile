@@ -56,13 +56,13 @@ pipeline {
         }
 
         stage('Build Docker Image') {
-            steps { sh 'docker build -t grocery-test .' }
+            steps { sh 'docker build -t grocery-test:v1 .' }
             }
 
         stage('Deployment') {
             steps {
                 sh '''
-                    docker run -d --name grocery-test -p 8081:80 grocery-website:v1
+                    docker run -d --name grocery-test -p 8081:80 grocery-test:v1
                 '''
                 }
         }
