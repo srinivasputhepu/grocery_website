@@ -18,14 +18,35 @@ pipeline {
 	stages{
 
         stage('Build Docker Image') {
-            steps { sh "docker build -t grocery-website:${env.BUILD_NUMBER} -t grocery-website:latest ." }
+            steps { sh "docker build -t srinivasputhepu/grocery-website:${env.BUILD_NUMBER} -t srinivasputhepu/grocery-website:latest ." }
+            }
+
+        stage('Docker Push Image') {
+            steps {
+                withCredentials([
+                        usernamePassword(
+                            credentialsId: 'dockerhub-creds',
+                            usernameVariable: 'DOCKER_USER',
+                            passwordVariable: 'DOCKER_TOKEN'                            
+                        )                    
+                    ]) {
+                        sh """
+                            echo "$DOCKER_TOKEN" | docker login -u "$DOCKER_USER" --password-stdin
+
+                            docker push srinivasputhepu/grocery-website:${env.BUILD_NUMBER}
+                            docker push srinivasputhepu/grocery-website:latest
+
+                            docker logout
+                        """
+                    }
+                }
             }
 
         stage('Deployment') {
             steps {
                 sh """
-                    docker rm -f grocery-test                    
-                    docker run -d --name grocery-test -p 8081:80 grocery-website:${env.BUILD_NUMBER}
+                    docker rm -f grocery-test || true                  
+                    docker run -d --name grocery-test -p 8081:80 srinivasputhepu/grocery-website:${env.BUILD_NUMBER}
                     """
                 }
         }
