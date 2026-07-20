@@ -1,6 +1,13 @@
 pipeline {
 	agent any
 
+        options {
+            timestamps()
+            disableConcurrentBuilds()
+            buildDiscarder(logRotator(numToKeepStr: '10'))
+            timeout(time: 10, unit: 'MINUTES')            
+        }
+
         parameters {
             string (
                 name: 'VERSION',
